@@ -2,8 +2,8 @@
 // See the LICENSE file
 // Portions Copyright (c) Athena Dev Teams
 
-#ifndef _MAP_BATTLE_H_
-#define _MAP_BATTLE_H_
+#ifndef MAP_BATTLE_H
+#define MAP_BATTLE_H
 
 #include "map.h" //ELE_MAX
 #include "../common/cbasetypes.h"
@@ -416,6 +416,7 @@ struct Battle_Config {
 	int invincible_nodamage;
 	int mob_slave_keep_target;
 	int autospell_check_range;	//Enable range check for autospell bonus. [L0ne_W0lf]
+	int knockback_left;
 	int client_reshuffle_dice;  // Reshuffle /dice
 	int client_sort_storage;
 	int feature_buying_store;
@@ -447,12 +448,17 @@ struct Battle_Config {
 	int atcommand_suggestions_enabled;
 	int min_npc_vendchat_distance;
 	int atcommand_mobinfo_type;
+
+	// Costume System
+	int reserved_costume_id;
 	
 	int mob_size_influence; // Enable modifications on earned experience, drop rates and monster status depending on monster size. [mkbu95]
-	
+	int bowling_bash_area;
+
 	/** Hercules **/
 	int skill_trap_type;
 	int item_restricted_consumption_type;
+	int unequip_restricted_equipment;
 	int max_walk_path;
 	int item_enabled_npc;
 	int packet_obfuscation;
@@ -603,4 +609,4 @@ struct battle_interface {
 struct battle_interface *battle;
 
 void battle_defaults(void);
-#endif /* _MAP_BATTLE_H_ */
+#endif /* MAP_BATTLE_H */

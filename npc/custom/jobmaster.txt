@@ -11,17 +11,65 @@
 //= 1.2 Added Expanded Super Novice support and initial Kagerou/Oboro support. [Euphy]
 //= 1.3 Kagerou/Oboro added. [Euphy]
 //= 1.4 Improved legibility (renamed variables, replaced
-//      numbers with constants; Changed syntax to match
-//      Hercules standards; Fixed status point exploit upon
-//      Baby Novice job change. [Haru]
+//	 numbers with constants; Changed syntax to match
+//	 Hercules standards; Fixed status point exploit upon
+//	 Baby Novice job change. [Haru]
 //============================================================
 
-prontera,153,193,6	script	Job Master	2_F_MAGICMASTER,{
+prontera,153,193,6	script	Job Master	496,{
 	function Job_Menu; function A_An;
 
-	mes "[Job Master]";
+/*
+//Lines where I add my own quests for job changing.
+
+	if (jcquest == 1 || Class > Job_Soul_Linker) {
+		goto jobchangescript;
+	}
+	else {
+		mes "[Master Whisker]";
+		mes "Welcome! I suppose you want to change your job?";
+		next;
+		menu "No",-,"Yes!",jcaccepted;
+		mes "[Master Whisker]";
+		mes "Wow, I had no idea you liked being weak. I guess I'll have to look for an adventurer who is more determined.";
+		close;
+	}
+
+jcaccepted:
+	mes "[Master Whisker]";
+	mes "I like your attitude, but first, you must bring me a few things...";
+	.@eac = eaclass();
+	.@base = .third_classes ? roclass(.@eac&EAJ_UPPERMASK) : Class;
+
+// NOVICE //
+	if ((.@eac&EAJ_BASEMASK) == EAJ_NOVICE){
+		mes "^FF000010 Apples^000000";
+	}
+
+// FIRST CLASS //
+	if (BaseClass == Class && (.@eac&EAJ_BASEMASK) != EAJ_NOVICE)) {
+		mes "^FF00002 Gold^000000";
+	}
+	
+// SECOND CLASS //
+	if (.@base >= Job_Knight && .@base <= Job_Crusader2) {
+	//REBIRTH SECOND CLASS
+		if (Class > Job_Crusader2) {
+			mes "^FF00003 Humanities^000000";
+		}
+		else {
+			mes "^FF00001 Humanity^000000";
+		}
+	}
+	close;
+
+//This is where the actual npc starts.
+
+jobchangescript:*/
+	mes "[Master Whisker]";
 	if (Class > Job_Soul_Linker) {
-		mes "No more jobs are available.";
+		mes "This is as far as my help goes.";
+		mes "Now go!";
 		close;
 	}
 	if (checkfalcon() || checkcart() || checkriding() || ismounting()) {
@@ -30,7 +78,8 @@ prontera,153,193,6	script	Job Master	2_F_MAGICMASTER,{
 		close;
 	}
 	if (.skill_point_check && SkillPoint > 0) {
-		mes "Please use all your skill points before proceeding.";
+		mes "What exactly are you trying to achieve here!?";
+		mes "Use all your skill points before proceeding!";
 		close;
 	}
 
@@ -40,6 +89,7 @@ prontera,153,193,6	script	Job Master	2_F_MAGICMASTER,{
 		if (BaseLevel < .rebirth_blevel || JobLevel < .rebirth_jlevel) {
 			.@blvl = .rebirth_blevel - BaseLevel;
 			.@jlvl = .rebirth_jlevel - JobLevel;
+			mes "You're unprepared!";
 			mes "You need "
 			    + (BaseLevel < .rebirth_blevel ? ((.rebirth_blevel - BaseLevel) +" more base levels "+ (JobLevel < .rebirth_jlevel ? "and " : "")) : "")
 			    + (JobLevel < .rebirth_jlevel ? (.rebirth_jlevel - JobLevel) +" more job levels " : "")
@@ -58,14 +108,14 @@ prontera,153,193,6	script	Job Master	2_F_MAGICMASTER,{
 			.@choice = select(" ~ ^0055FFRebirth^000000:"+(.third_classes ? " ~ ^FF0000Third Class^000000" : "")+": ~ ^777777Cancel^000000");
 			if (.@choice == 3)
 				close;
-			mes "[Job Master]";
+			mes "[Master Whisker]";
 			mes "Are you sure?";
 			next;
 			if (.@choice == 1)
 				Job_Menu(Job_Novice_High);
 			else
 				Job_Menu(roclass(.@eac|EAJL_THIRD));
-			mes "[Job Master]";
+			mes "[Master Whisker]";
 		}
 	}
 	.@job1 = roclass(.@eac|EAJL_2_1);
@@ -92,7 +142,8 @@ prontera,153,193,6	script	Job Master	2_F_MAGICMASTER,{
 	}
 	if (.@eac&EAJL_2)
 		if (.@eac&(EAJL_UPPER|EAJL_BABY) || roclass(.@eac|EAJL_UPPER) == -1) {
-			mes "No more jobs are available.";
+			mes "This is as far as my help goes.";
+			mes "Now go!";
 			close;
 		}
 	if ((.@eac&EAJ_BASEMASK) == EAJ_NOVICE) {
@@ -104,21 +155,24 @@ prontera,153,193,6	script	Job Master	2_F_MAGICMASTER,{
 			Job_Menu(roclass((eaclass(lastJob)&EAJ_BASEMASK)|EAJL_UPPER));
 		} else if (Class == Job_Novice) {
 			Job_Menu(Job_Swordman, Job_Mage, Job_Archer, Job_Acolyte, Job_Merchant, Job_Thief,
-			         Job_SuperNovice, Job_Taekwon, Job_Gunslinger, Job_Ninja, Job_Baby);
+				    Job_SuperNovice, Job_Taekwon, Job_Gunslinger, Job_Ninja, Job_Baby);
 		} else if (Class == Job_Novice_High) {
 			Job_Menu(Job_Swordman_High, Job_Mage_High, Job_Archer_High, Job_Acolyte_High, Job_Merchant_High, Job_Thief_High);
 		} else if (Class == Job_Baby) {
 			Job_Menu(Job_Baby_Swordman, Job_Baby_Mage, Job_Baby_Archer, Job_Baby_Acolyte, Job_Baby_Merchant, Job_Baby_Thief,
-			         Job_Super_Baby);
+				    Job_Super_Baby);
 		} else {
 			mes "An error has occurred.";
 		}
 		close;
 	}
 	if (roclass(.@eac|EAJL_2_1) == -1 || roclass(.@eac|EAJL_2_2) == -1) {
-		mes "No more jobs are available.";
+		mes "This is as far as my help goes.";
+		mes "Now go!";
 	} else if (!(.@eac&EAJL_2) && JobLevel < .jobchange_second) {
+		mes "You're unprepared!";
 		mes "A job level of "+.jobchange_second+" is required to change into the 2nd Class.";
+		mes "Please don't waste my time.";
 	} else if (.linear_jobchange && lastJob && (.@eac&EAJL_UPPER)) {
 		mes "Switch classes now?";
 		next;
@@ -131,7 +185,7 @@ prontera,153,193,6	script	Job Master	2_F_MAGICMASTER,{
 function Job_Menu {
 	while (true) {
 		if (getargcount() > 1) {
-			mes "Select a job.";
+			mes "So, what do you want to be?";
 			.@menu$ = "";
 			for (.@i = 0; .@i < getargcount(); ++.@i)
 				.@menu$ += " ~ "+jobname(getarg(.@i))+":";
@@ -140,33 +194,40 @@ function Job_Menu {
 			.@newjob = getarg(select(.@menu$)-1, 0);
 			if (!.@newjob) close;
 			if ((.@newjob == Job_SuperNovice || .@newjob == Job_Super_Baby) && BaseLevel < .supernovice_level) {
-				mes "[Job Master]";
+				mes "[Master Whisker]";
+				mes "I can see you got a little attached to your current form.";
 				mes "A base level of "+.supernovice_level+" is required to turn into a "+jobname(.@newjob)+".";
 				close;
 			}
-			mes "[Job Master]";
+			mes "[Master Whisker]";
 			mes "Are you sure?";
 			next;
 		} else {
 			.@newjob = getarg(0);
 		}
 		if (select(" ~ Change into ^0055FF"+jobname(.@newjob)+"^000000 class: ~ ^777777"+(getargcount() > 1 ? "Go back" : "Cancel")+"^000000") == 1) {
-			mes "[Job Master]";
+			mes "[Master Whisker]";
 			mes "You are now "+A_An(jobname(.@newjob))+"!";
 			if (.@newjob == Job_Novice_High && .linear_jobchange)
 				lastJob = Class; // Note: This is incompatible with the Valkyrie rebirth script.
 			jobchange .@newjob;
 			if (.@newjob == Job_Novice_High)
 				resetlvl(1);
+			if (.@newjob == Job_Baby) {
+				resetlvl(4);
+				SkillPoint = 0;
+			}
 			specialeffect2 EF_ANGEL2;
 			specialeffect2 EF_ELECTRIC;
-			if (.platinum)
+			if (.platinum) {
 				callsub Get_Platinum;
+			}
+			jcquest = 0;
 			close;
 		}
 		if (getargcount() == 1)
 			return;
-		mes "[Job Master]";
+		mes "[Master Whisker]";
 	}
 	end;
 }
@@ -249,10 +310,10 @@ OnInit:
 	.rebirth_jlevel = 50;    // Minimum base job level to reborn OR change to third class
 	.jobchange_first = 10;   // Minimum job level to turn into 1st class
 	.jobchange_second = 40;  // Minimum job level to turn into 2nd class
-	.third_classes = 1;      // Enable third classes? (1: yes / 0: no)
+	.third_classes = 1;	 // Enable third classes? (1: yes / 0: no)
 	.supernovice_level = 45; // Minimum base level to turn into Super Novice
 	.linear_jobchange = 1;   // Enforce linear class changes? (1: yes / 0: no)
 	.skill_point_check = 1;  // Force player to use up all skill points? (1: yes / 0: no)
-	.platinum = 1;           // Get platinum skills automatically? (1: yes / 0: no)
+	.platinum = 1;		 // Get platinum skills automatically? (1: yes / 0: no)
 	end;
 }

@@ -212,7 +212,7 @@ moc_para01,27,35,5	script	Secretary Lime Evenor	4_F_EDEN_OFFICER,{
 		close;
 	}
 }
-prontera,124,76,3	duplicate(eto)	Eden Teleport Officer#1	4_F_NOVICE
+prontera,148,191,3	duplicate(eto)	Eden Teleport Officer#1	4_F_NOVICE
 moc_ruins,68,164,3	duplicate(eto)	Eden Teleport Officer#2	4_F_NOVICE
 geffen,132,66,3	duplicate(eto)	Eden Teleport Officer#3	4_F_NOVICE
 alberta,124,67,3	duplicate(eto)	Eden Teleport Officer#4	4_F_NOVICE
@@ -252,7 +252,7 @@ malaya,238,206,6	duplicate(eto)	Eden Teleport Officer#32	4_F_NOVICE
 moc_para01,30,10,0	script	#eden_out	WARPNPC,1,1,{
 OnTouch:
 	switch (nak_warp) {
-		case 1: warp "prontera",116,72; end;
+		case 1: warp "prontera",148,191; end;
 		case 2: warp "moc_ruins",64,161; end;
 		case 3: warp "geffen",120,39; end;
 		case 4: warp "alberta",117,56; end;

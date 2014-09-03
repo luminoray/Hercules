@@ -1,0 +1,7 @@
+prontera,187,179,5	script	Premium Mounter	4_F_TELEPORTER,{
+
+if (getgmlevel()>= 80) {
+	setmounting;
+}
+
+}

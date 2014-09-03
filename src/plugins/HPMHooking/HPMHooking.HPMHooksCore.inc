@@ -2879,10 +2879,8 @@ struct {
 	struct HPMHookPoint *HP_map_versionscreen_post;
 	struct HPMHookPoint *HP_map_arg_next_value_pre;
 	struct HPMHookPoint *HP_map_arg_next_value_post;
-	struct HPMHookPoint *HP_map_addblcell_pre;
-	struct HPMHookPoint *HP_map_addblcell_post;
-	struct HPMHookPoint *HP_map_delblcell_pre;
-	struct HPMHookPoint *HP_map_delblcell_post;
+	struct HPMHookPoint *HP_map_update_cell_bl_pre;
+	struct HPMHookPoint *HP_map_update_cell_bl_post;
 	struct HPMHookPoint *HP_map_get_new_bonus_id_pre;
 	struct HPMHookPoint *HP_map_get_new_bonus_id_post;
 	struct HPMHookPoint *HP_map_add_questinfo_pre;
@@ -3507,6 +3505,10 @@ struct {
 	struct HPMHookPoint *HP_pc_can_give_items_post;
 	struct HPMHookPoint *HP_pc_can_give_bound_items_pre;
 	struct HPMHookPoint *HP_pc_can_give_bound_items_post;
+	struct HPMHookPoint *HP_pc_can_talk_pre;
+	struct HPMHookPoint *HP_pc_can_talk_post;
+	struct HPMHookPoint *HP_pc_can_attack_pre;
+	struct HPMHookPoint *HP_pc_can_attack_post;
 	struct HPMHookPoint *HP_pc_can_use_command_pre;
 	struct HPMHookPoint *HP_pc_can_use_command_post;
 	struct HPMHookPoint *HP_pc_set_group_pre;
@@ -4799,6 +4801,8 @@ struct {
 	struct HPMHookPoint *HP_status_get_total_def_post;
 	struct HPMHookPoint *HP_status_get_matk_pre;
 	struct HPMHookPoint *HP_status_get_matk_post;
+	struct HPMHookPoint *HP_status_update_matk_pre;
+	struct HPMHookPoint *HP_status_update_matk_post;
 	struct HPMHookPoint *HP_status_readdb_pre;
 	struct HPMHookPoint *HP_status_readdb_post;
 	struct HPMHookPoint *HP_status_initChangeTables_pre;
@@ -4951,8 +4955,8 @@ struct {
 	struct HPMHookPoint *HP_unit_walktobl_post;
 	struct HPMHookPoint *HP_unit_run_pre;
 	struct HPMHookPoint *HP_unit_run_post;
-	struct HPMHookPoint *HP_unit_wugdash_pre;
-	struct HPMHookPoint *HP_unit_wugdash_post;
+	struct HPMHookPoint *HP_unit_run_hit_pre;
+	struct HPMHookPoint *HP_unit_run_hit_post;
 	struct HPMHookPoint *HP_unit_escape_pre;
 	struct HPMHookPoint *HP_unit_escape_post;
 	struct HPMHookPoint *HP_unit_movepos_pre;
@@ -7912,10 +7916,8 @@ struct {
 	int HP_map_versionscreen_post;
 	int HP_map_arg_next_value_pre;
 	int HP_map_arg_next_value_post;
-	int HP_map_addblcell_pre;
-	int HP_map_addblcell_post;
-	int HP_map_delblcell_pre;
-	int HP_map_delblcell_post;
+	int HP_map_update_cell_bl_pre;
+	int HP_map_update_cell_bl_post;
 	int HP_map_get_new_bonus_id_pre;
 	int HP_map_get_new_bonus_id_post;
 	int HP_map_add_questinfo_pre;
@@ -8540,6 +8542,10 @@ struct {
 	int HP_pc_can_give_items_post;
 	int HP_pc_can_give_bound_items_pre;
 	int HP_pc_can_give_bound_items_post;
+	int HP_pc_can_talk_pre;
+	int HP_pc_can_talk_post;
+	int HP_pc_can_attack_pre;
+	int HP_pc_can_attack_post;
 	int HP_pc_can_use_command_pre;
 	int HP_pc_can_use_command_post;
 	int HP_pc_set_group_pre;
@@ -9832,6 +9838,8 @@ struct {
 	int HP_status_get_total_def_post;
 	int HP_status_get_matk_pre;
 	int HP_status_get_matk_post;
+	int HP_status_update_matk_pre;
+	int HP_status_update_matk_post;
 	int HP_status_readdb_pre;
 	int HP_status_readdb_post;
 	int HP_status_initChangeTables_pre;
@@ -9984,8 +9992,8 @@ struct {
 	int HP_unit_walktobl_post;
 	int HP_unit_run_pre;
 	int HP_unit_run_post;
-	int HP_unit_wugdash_pre;
-	int HP_unit_wugdash_post;
+	int HP_unit_run_hit_pre;
+	int HP_unit_run_hit_post;
 	int HP_unit_escape_pre;
 	int HP_unit_escape_post;
 	int HP_unit_movepos_pre;

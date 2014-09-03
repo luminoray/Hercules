@@ -1,0 +1,46 @@
+prontera,164,168,3	script	DB Gatekeeper#0	429,{
+	mes "[DB Gatekeeper]";
+	mes "Hello, got a few dead branches you want to break?";
+	mes "I can take you to a safe place you can do it without causing trouble.";
+	next;
+	mes "[DB Gatekeeper]";
+	mes "Want me to take you there?";
+	next;
+	menu "Yes",enterdb,"No thanks",canceldb;
+
+enterdb:
+	mes "[DB Gatekeeper]";
+	mes "Alright, good luck!";
+	next;
+	warp "guild_vs2",0,0;
+	close;
+	end;
+
+canceldb:
+	mes "[DB Gatekeeper]";
+	mes "Ok, good luck in your adventures!";
+	close;
+	end;
+}
+
+guild_vs2,46,71,5	script	DB Gatekeeper#1	429,{
+	mes "[DB Gatekeeper]";
+	mes "You've had enough for now?";
+	next;
+	menu "Yes, take me out.",leavedb,"No, not yet.",staydb;
+
+leavedb:
+	mes "[DB Gatekeeper]";
+	mes "Ok, I'll take you back then.";
+	next;
+	warp "SavePoint",0,0;
+	close;
+	end;
+
+staydb:
+	mes "[DB Gatekeeper]";
+	mes "Talk to me again when you're done.";
+	close;
+	end;
+
+}

@@ -1724,7 +1724,7 @@ void clif_changemapserver(struct map_session_data* sd, unsigned short map_index,
 void clif_blown(struct block_list *bl)
 {
 //Aegis packets says fixpos, but it's unsure whether slide works better or not.
-//	clif_fixpos(bl);
+	clif->fixpos(bl);
 	clif->slide(bl, bl->x, bl->y);
 }
 
@@ -3486,10 +3486,10 @@ void clif_arrow_create_list(struct map_session_data *sd)
 	WFIFOW(fd,0) = 0x1ad;
 
 	for (i = 0, c = 0; i < MAX_SKILL_ARROW_DB; i++) {
-		if (skill->arrow_db[i].nameid > 0 &&
-			(j = pc->search_inventory(sd, skill->arrow_db[i].nameid)) >= 0 &&
-			!sd->status.inventory[j].equip && sd->status.inventory[j].identify)
-		{
+		if (skill->arrow_db[i].nameid > 0
+		 && (j = pc->search_inventory(sd, skill->arrow_db[i].nameid)) != INDEX_NOT_FOUND
+		 && !sd->status.inventory[j].equip && sd->status.inventory[j].identify
+		) {
 			if ((j = itemdb_viewid(skill->arrow_db[i].nameid)) > 0)
 				WFIFOW(fd,c*2+4) = j;
 			else
@@ -4622,6 +4622,8 @@ void clif_graffiti_entry(struct block_list *bl, struct skill_unit *su, enum send
 /// 099f <lenght>.W <id> L <creator id>.L <x>.W <y>.W <unit id>.L <range>.W <visible>.B (ZC_SKILL_ENTRY4)
 void clif_getareachar_skillunit(struct block_list *bl, struct skill_unit *su, enum send_target target) {
 	struct packet_skill_entry p;
+	nullpo_retv(bl);
+	nullpo_retv(su);
 
 	if( su->group->state.guildaura )
 		return;
@@ -5643,16 +5645,17 @@ void clif_displaymessage2(const int fd, const char* mes) {
 	}
 }
 /* oh noo! another version of 0x8e! */
-void clif_displaymessage_sprintf(const int fd, const char* mes, ...) {
+void clif_displaymessage_sprintf(const int fd, const char *mes, ...) __attribute__((format(printf, 2, 3)));
+void clif_displaymessage_sprintf(const int fd, const char *mes, ...) {
 	va_list ap;
 
-	if( map->cpsd_active && fd == 0 ) {
+	if (map->cpsd_active && fd == 0) {
 		ShowInfo("HCP: ");
 		va_start(ap,mes);
-		_vShowMessage(MSG_NONE,mes,ap);
+		vShowMessage_(MSG_NONE,mes,ap);
 		va_end(ap);
 		ShowMessage("\n");
-	} else if ( fd > 0 ) {
+	} else if (fd > 0) {
 		int len = 1;
 		char *ptr;
 
@@ -5708,8 +5711,8 @@ void clif_GlobalMessage(struct block_list* bl, const char* message) {
 
 	len = strlen(message)+1;
 
-	if( len > sizeof(buf)-8 ) {
-		ShowWarning("clif_GlobalMessage: Truncating too long message '%s' (len=%d).\n", message, len);
+	if (len > sizeof(buf)-8) {
+		ShowWarning("clif_GlobalMessage: Truncating too long message '%s' (len=%"PRIuS").\n", message, len);
 		len = sizeof(buf)-8;
 	}
 
@@ -6741,9 +6744,9 @@ void clif_party_message(struct party_data* p, int account_id, const char* mes, i
 	if(i < MAX_PARTY){
 		unsigned char buf[1024];
 
-		if( len > sizeof(buf)-8 )
-		{
-			ShowWarning("clif_party_message: Truncated message '%s' (len=%d, max=%d, party_id=%d).\n", mes, len, sizeof(buf)-8, p->party.party_id);
+		if (len > sizeof(buf)-8) {
+			ShowWarning("clif_party_message: Truncated message '%s' (len=%d, max=%"PRIuS", party_id=%d).\n",
+			            mes, len, sizeof(buf)-8, p->party.party_id);
 			len = sizeof(buf)-8;
 		}
 
@@ -7856,13 +7859,11 @@ void clif_guild_message(struct guild *g,int account_id,const char *mes,int len)
 	struct map_session_data *sd;
 	uint8 buf[256];
 
-	if( len == 0 )
-	{
+	if (len == 0)
 		return;
-	}
-	else if( len > sizeof(buf)-5 )
-	{
-		ShowWarning("clif_guild_message: Truncated message '%s' (len=%d, max=%d, guild_id=%d).\n", mes, len, sizeof(buf)-5, g->guild_id);
+
+	if (len > sizeof(buf)-5) {
+		ShowWarning("clif_guild_message: Truncated message '%s' (len=%d, max=%"PRIuS", guild_id=%d).\n", mes, len, sizeof(buf)-5, g->guild_id);
 		len = sizeof(buf)-5;
 	}
 
@@ -8117,10 +8118,11 @@ void clif_disp_message(struct block_list* src, const char* mes, size_t len, enum
 {
 	unsigned char buf[256];
 
-	if( len == 0 ) {
+	if (len == 0)
 		return;
-	} else if( len > sizeof(buf)-5 ) {
-		ShowWarning("clif_disp_message: Truncated message '%s' (len=%d, max=%d, aid=%d).\n", mes, len, sizeof(buf)-5, src->id);
+
+	if (len > sizeof(buf)-5) {
+		ShowWarning("clif_disp_message: Truncated message '%s' (len=%"PRIuS", max=%"PRIuS", aid=%d).\n", mes, len, sizeof(buf)-5, src->id);
 		len = sizeof(buf)-5;
 	}
 
@@ -8392,8 +8394,8 @@ void clif_messagecolor(struct block_list* bl, unsigned int color, const char* ms
 
 	nullpo_retv(bl);
 
-	if( msg_len > sizeof(buf)-12 ) {
-		ShowWarning("clif_messagecolor: Truncating too long message '%s' (len=%u).\n", msg, msg_len);
+	if (msg_len > sizeof(buf)-12) {
+		ShowWarning("clif_messagecolor: Truncating too long message '%s' (len=%"PRIuS").\n", msg, msg_len);
 		msg_len = sizeof(buf)-12;
 	}
 
@@ -8602,11 +8604,11 @@ void clif_charnameack (int fd, struct block_list *bl)
 				nullpo_retv(md);
 
 				memcpy(WBUFP(buf,6), md->name, NAME_LENGTH);
-				if( md->guardian_data && md->guardian_data->guild_id )
+				if( md->guardian_data && md->guardian_data->g )
 				{
 					WBUFW(buf, 0) = cmd = 0x195;
 					WBUFB(buf,30) = 0;
-					memcpy(WBUFP(buf,54), md->guardian_data->guild_name, NAME_LENGTH);
+					memcpy(WBUFP(buf,54), md->guardian_data->g->name, NAME_LENGTH);
 					memcpy(WBUFP(buf,78), md->guardian_data->castle->castle_name, NAME_LENGTH);
 				}
 				else if( battle_config.show_mob_info )
@@ -8742,7 +8744,7 @@ void clif_disp_overhead(struct block_list *bl, const char* mes)
 	size_t len_mes = strlen(mes)+1; //Account for \0
 
 	if (len_mes > sizeof(buf)-8) {
-		ShowError("clif_disp_overhead: Message too long (length %d)\n", len_mes);
+		ShowError("clif_disp_overhead: Message too long (length %"PRIuS")\n", len_mes);
 		len_mes = sizeof(buf)-8; //Trunk it to avoid problems.
 	}
 	// send message to others
@@ -9864,7 +9866,7 @@ void clif_parse_GlobalMessage(int fd, struct map_session_data* sd)
 	if( atcommand->exec(fd, sd, message, true)  )
 		return;
 
-	if( sd->sc.data[SC_BERSERK] || (sd->sc.data[SC_DEEP_SLEEP] && sd->sc.data[SC_DEEP_SLEEP]->val2) || (sd->sc.data[SC_NOCHAT] && sd->sc.data[SC_NOCHAT]->val1&MANNER_NOCHAT) )
+	if( !pc->can_talk(sd) )
 		return;
 
 	if( battle_config.min_chat_delay ) { //[Skotlex]
@@ -10111,14 +10113,14 @@ void clif_parse_ActionRequest_sub(struct map_session_data *sd, int action_type, 
 		return;
 	}
 
-	if (sd->sc.count &&
-		(sd->sc.data[SC_TRICKDEAD] ||
-		(sd->sc.data[SC_AUTOCOUNTER] && action_type != 0x07) ||
-		 sd->sc.data[SC_BLADESTOP] ||
-		 sd->sc.data[SC_DEEP_SLEEP] ||
-		 sd->sc.data[SC__MANHOLE] ||
-		 sd->sc.data[SC_CURSEDCIRCLE_ATKER] ||
-		 sd->sc.data[SC_CURSEDCIRCLE_TARGET] ))
+	// Statuses that don't let the player sit / attack / talk with NPCs(targeted)
+	// (not all are included in pc_can_attack)
+	if( sd->sc.count && (
+			sd->sc.data[SC_TRICKDEAD] ||
+			(sd->sc.data[SC_AUTOCOUNTER] && action_type != 0x07) ||
+			 sd->sc.data[SC_BLADESTOP] ||
+			 sd->sc.data[SC_DEEP_SLEEP] )
+			 )
 		return;
 
 	pc_stop_walking(sd, 1);
@@ -10140,10 +10142,6 @@ void clif_parse_ActionRequest_sub(struct map_session_data *sd, int action_type, 
 				return;
 
 			if( sd->sc.option&OPTION_COSTUME )
-				return;
-
-			if( sd->sc.data[SC_BASILICA] || sd->sc.data[SC__SHADOWFORM] ||
-			(sd->sc.data[SC_SIREN] && sd->sc.data[SC_SIREN]->val2 == target_id) )
 				return;
 
 			if (!battle_config.sdelay_attack_enable && pc->checkskill(sd, SA_FREECAST) <= 0) {
@@ -10377,7 +10375,8 @@ void clif_parse_WisMessage(int fd, struct map_session_data* sd)
 	if ( atcommand->exec(fd, sd, message, true) )
 		return;
 
-	if (sd->sc.data[SC_BERSERK] || (sd->sc.data[SC_DEEP_SLEEP] && sd->sc.data[SC_DEEP_SLEEP]->val2) || (sd->sc.data[SC_NOCHAT] && sd->sc.data[SC_NOCHAT]->val1&MANNER_NOCHAT))
+	// Statuses that prevent the player from whispering
+	if( !pc->can_talk(sd) )
 		return;
 
 	if (battle_config.min_chat_delay) { //[Skotlex]
@@ -13152,8 +13151,9 @@ void clif_parse_GuildChangeEmblem(int fd,struct map_session_data *sd)
 	if( !emblem_len || !sd->state.gmaster_flag )
 		return;
 
-	if( !clif->validate_emblem(emblem, emblem_len) ) {
-		ShowWarning("clif_parse_GuildChangeEmblem: Rejected malformed guild emblem (size=%lu, accound_id=%d, char_id=%d, guild_id=%d).\n", emblem_len, sd->status.account_id, sd->status.char_id, sd->status.guild_id);
+	if (!clif->validate_emblem(emblem, emblem_len)) {
+		ShowWarning("clif_parse_GuildChangeEmblem: Rejected malformed guild emblem (size=%u, accound_id=%d, char_id=%d, guild_id=%d).\n",
+		            emblem_len, sd->status.account_id, sd->status.char_id, sd->status.guild_id);
 		return;
 	}
 
@@ -14615,7 +14615,7 @@ void clif_parse_AutoRevive(int fd, struct map_session_data *sd) {
 	int item_position = pc->search_inventory(sd, ITEMID_TOKEN_OF_SIEGFRIED);
 	int hpsp = 100;
 
-	if (item_position < 0){
+	if (item_position == INDEX_NOT_FOUND) {
 		if (sd->sc.data[SC_LIGHT_OF_REGENE])
 			hpsp = 20 * sd->sc.data[SC_LIGHT_OF_REGENE]->val1;
 		else
@@ -14628,10 +14628,10 @@ void clif_parse_AutoRevive(int fd, struct map_session_data *sd) {
 	if (!status->revive(&sd->bl, hpsp, hpsp))
 		return;
 
-	if ( item_position > 0)
-		pc->delitem(sd, item_position, 1, 0, 1, LOG_TYPE_CONSUME);
-	else
+	if (item_position == INDEX_NOT_FOUND)
 		status_change_end(&sd->bl,SC_LIGHT_OF_REGENE,INVALID_TIMER);
+	else
+		pc->delitem(sd, item_position, 1, 0, 1, LOG_TYPE_CONSUME);
 
 	clif->skill_nodamage(&sd->bl,&sd->bl,ALL_RESURRECTION,4,1);
 }
@@ -17310,7 +17310,7 @@ int clif_autoshadowspell_list(struct map_session_data *sd) {
 	WFIFOW(fd,0) = 0x442;
 	for( i = 0, c = 0; i < MAX_SKILL; i++ )
 		if( sd->status.skill[i].flag == SKILL_FLAG_PLAGIARIZED && sd->status.skill[i].id > 0 &&
-				sd->status.skill[i].id < GS_GLITTERING && skill->get_type(sd->status.skill[i].id) == BF_MAGIC )
+				sd->status.skill[i].id < GS_GLITTERING /*&& skill->get_type(sd->status.skill[i].id) == BF_MAGIC*/ )
 		{ // Can't auto cast both Extended class and 3rd class skills.
 			WFIFOW(fd,8+c*2) = sd->status.skill[i].id;
 			c++;
@@ -17750,8 +17750,8 @@ void clif_ShowScript(struct block_list* bl, const char* message) {
 
 	len = strlen(message)+1;
 
-	if( len > sizeof(buf)-8 ) {
-		ShowWarning("clif_ShowScript: Truncating too long message '%s' (len=%d).\n", message, len);
+	if (len > sizeof(buf)-8) {
+		ShowWarning("clif_ShowScript: Truncating too long message '%s' (len=%"PRIuS").\n", message, len);
 		len = sizeof(buf)-8;
 	}
 
@@ -18348,8 +18348,9 @@ int clif_parse(int fd) {
 		cmd = parse_cmd_func(fd,sd);
 
 		// filter out invalid / unsupported packets
-		if( cmd > MAX_PACKET_DB || cmd < MIN_PACKET_DB || packet_db[cmd].len == 0 ) {
-			ShowWarning("clif_parse: Received unsupported packet (packet 0x%04x (0x%04x), %d bytes received), disconnecting session #%d.\n", cmd, RFIFOW(fd,0), RFIFOREST(fd), fd);
+		if (cmd > MAX_PACKET_DB || cmd < MIN_PACKET_DB || packet_db[cmd].len == 0) {
+			ShowWarning("clif_parse: Received unsupported packet (packet 0x%04x (0x%04x), %"PRIuS" bytes received), disconnecting session #%d.\n",
+			            cmd, RFIFOW(fd,0), RFIFOREST(fd), fd);
 #ifdef DUMP_INVALID_PACKET
 			ShowDump(RFIFOP(fd,0), RFIFOREST(fd));
 #endif

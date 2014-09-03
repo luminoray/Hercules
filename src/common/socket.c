@@ -5,9 +5,9 @@
 #define HERCULES_CORE
 
 #include "../config/core.h" // SHOW_SERVER_STATS
-#define _H_SOCKET_C_
+#define H_SOCKET_C
 #include "socket.h"
-#undef _H_SOCKET_C_
+#undef H_SOCKET_C
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -689,8 +689,8 @@ int RFIFOSKIP(int fd, size_t len)
 
 	s = session[fd];
 
-	if ( s->rdata_size < s->rdata_pos + len ) {
-		ShowError("RFIFOSKIP: skipped past end of read buffer! Adjusting from %d to %d (session #%d)\n", len, RFIFOREST(fd), fd);
+	if (s->rdata_size < s->rdata_pos + len) {
+		ShowError("RFIFOSKIP: skipped past end of read buffer! Adjusting from %"PRIuS" to %"PRIuS" (session #%d)\n", len, RFIFOREST(fd), fd);
 		len = RFIFOREST(fd);
 	}
 
@@ -738,13 +738,15 @@ int WFIFOSET(int fd, size_t len)
 
 	if( !s->flag.server ) {
 
-		if( len > socket_max_client_packet ) {// see declaration of socket_max_client_packet for details
-			ShowError("WFIFOSET: Dropped too large client packet 0x%04x (length=%u, max=%u).\n", WFIFOW(fd,0), len, socket_max_client_packet);
+		if (len > socket_max_client_packet) { // see declaration of socket_max_client_packet for details
+			ShowError("WFIFOSET: Dropped too large client packet 0x%04x (length=%"PRIuS", max=%"PRIuS").\n",
+			          WFIFOW(fd,0), len, socket_max_client_packet);
 			return 0;
 		}
 
-		if( s->wdata_size+len > WFIFO_MAX ) {// reached maximum write fifo size
-			ShowError("WFIFOSET: Maximum write buffer size for client connection %d exceeded, most likely caused by packet 0x%04x (len=%u, ip=%lu.%lu.%lu.%lu).\n", fd, WFIFOW(fd,0), len, CONVIP(s->client_addr));
+		if (s->wdata_size+len > WFIFO_MAX) { // reached maximum write fifo size
+			ShowError("WFIFOSET: Maximum write buffer size for client connection %d exceeded, most likely caused by packet 0x%04x (len=%"PRIuS", ip=%u.%u.%u.%u).\n",
+			          fd, WFIFOW(fd,0), len, CONVIP(s->client_addr));
 			set_eof(fd);
 			return 0;
 		}
@@ -909,20 +911,20 @@ int do_sockets(int next)
 //////////////////////////////
 // IP rules and DDoS protection
 
-typedef struct _connect_history {
-	struct _connect_history* next;
+typedef struct connect_history {
+	struct connect_history* next;
 	uint32 ip;
 	int64 tick;
 	int count;
 	unsigned ddos : 1;
 } ConnectHistory;
 
-typedef struct _access_control {
+typedef struct access_control {
 	uint32 ip;
 	uint32 mask;
 } AccessControl;
 
-enum _aco {
+enum aco {
 	ACO_DENY_ALLOW,
 	ACO_ALLOW_DENY,
 	ACO_MUTUAL_FAILURE
@@ -1152,11 +1154,10 @@ int socket_config_read(const char* cfgName)
 		return 1;
 	}
 
-	while(fgets(line, sizeof(line), fp))
-	{
+	while (fgets(line, sizeof(line), fp)) {
 		if(line[0] == '/' && line[1] == '/')
 			continue;
-		if(sscanf(line, "%[^:]: %[^\r\n]", w1, w2) != 2)
+		if (sscanf(line, "%1023[^:]: %1023[^\r\n]", w1, w2) != 2)
 			continue;
 
 		if (!strcmpi(w1, "stall_time")) {
@@ -1545,9 +1546,9 @@ void send_shortlist_add_fd(int fd)
 	if( (send_shortlist_set[i]>>bit)&1 )
 		return;// already in the list
 
-	if( send_shortlist_count >= ARRAYLENGTH(send_shortlist_array) )
-	{
-		ShowDebug("send_shortlist_add_fd: shortlist is full, ignoring... (fd=%d shortlist.count=%d shortlist.length=%d)\n", fd, send_shortlist_count, ARRAYLENGTH(send_shortlist_array));
+	if (send_shortlist_count >= ARRAYLENGTH(send_shortlist_array)) {
+		ShowDebug("send_shortlist_add_fd: shortlist is full, ignoring... (fd=%d shortlist.count=%d shortlist.length=%"PRIuS")\n",
+		          fd, send_shortlist_count, ARRAYLENGTH(send_shortlist_array));
 		return;
 	}
 

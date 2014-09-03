@@ -2,8 +2,8 @@
 // See the LICENSE file
 // Portions Copyright (c) Athena Dev Teams
 
-#ifndef _COMMON_MMO_H_
-#define _COMMON_MMO_H_
+#ifndef COMMON_MMO_H
+#define COMMON_MMO_H
 
 #include <time.h>
 
@@ -49,7 +49,7 @@
 // 20120307 - 2012-03-07aRagexeRE+ - 0x970
 
 #ifndef PACKETVER
-	#define PACKETVER 20131223
+	#define PACKETVER 20130807
 #endif // PACKETVER
 
 //Uncomment the following line if your client is ragexeRE instead of ragexe (required because of conflicting packets in ragexe vs ragexeRE).
@@ -105,14 +105,13 @@
 //Official Limit: 2.1b ( the var that stores the money doesn't go much higher than this by default )
 #define MAX_BANK_ZENY 2100000000
 
-#define MAX_LEVEL 175
+#define MAX_LEVEL 160
 #define MAX_FAME 1000000000
 #define MAX_CART 100
 #define MAX_SKILL 1478
 #define MAX_SKILL_ID 10015   // [Ind/Hercules] max used skill ID
-//Update this max as necessary. 55 is the value needed for Super Baby currently
-//Raised to 84 since Expanded Super Novice needs it.
-#define MAX_SKILL_TREE 84
+// Update this max as necessary. 86 is the value needed for Expanded Super Novice.
+#define MAX_SKILL_TREE 86
 #define DEFAULT_WALK_SPEED 150
 #define MIN_WALK_SPEED 20 /* below 20 clips animation */
 #define MAX_WALK_SPEED 1000
@@ -209,6 +208,7 @@ enum item_types {
 	IT_MAX
 };
 
+#define INDEX_NOT_FOUND (-1) ///< Used as invalid/failure value in various functions that return an index
 
 // Questlog states
 enum quest_state {
@@ -933,4 +933,4 @@ enum e_pc_reg_loading {
 #error MAX_ZENY is too big
 #endif
 
-#endif /* _COMMON_MMO_H_ */
+#endif /* COMMON_MMO_H */

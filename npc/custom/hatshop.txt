@@ -1,0 +1,258 @@
+prontera,141,179,7	script	Hat Artisan	504,{
+
+	mes "[Hat Artisan]";
+	mes "Hello! I heard there are many adventurers out here interested in diverse, unique hats, so I decided to open up a hat workshop, right here in Prontera.";
+	next;
+	mes "[Hat Artisan]";
+	mes "Here is my catalog!";
+	mes "^FF0000*Hands you a book with many designs*^000000";
+	mes "Which one are you interested in?";
+	next;
+	goto hatlist;
+
+makehat:
+	
+	mes "[Hat Artisan]";
+	mes "^0000FF" + .@name$ + "^000000 eh?";
+	mes "For this one, I will require 200,000 zeny for my services, as well as the following items:";
+	for (.@i = 0; .@i < getarraysize(.@items); ++.@i)
+	{
+		mes "^0000FF" + .@quantities[.@i] + " x " + getitemname(.@items[.@i]) + "^000000";
+	}
+	next;
+	mes "[Hat Artisan]";
+	mes "Keep in mind that any equipment required ^FF0000will be lost, cards, refine and everything^000000, so make sure you only have the piece of equipment required for the hat.";
+	mes "Are you ready to continue?";
+	next;
+	menu "Yes!",-,"No...",m_close;
+	mes "[Hat Artisan]";
+	if (checkweight(.@id,1) == 0)
+	{
+		mes "You have too many items! Come back when you've cleaned up your inventory. I'll be waiting!";
+		close;
+	}
+	for (.@i = 0; .@i < getarraysize(.@items); ++.@i)
+	{
+		if (countitem(.@items[.@i]) < .@quantities[.@i]) goto n_items;
+	}
+	if (Zeny < 200000) goto n_zeny;
+	for (.@i = 0; .@i < getarraysize(.@items); ++.@i)
+	{
+		delitem .@items[.@i], .@quantities[.@i];
+	}
+	Zeny -= 200000;
+	getitem .@id,1;
+	specialeffect 154;
+	mes "Yes! I did it!";
+	mes "Here is your ^0000FF" + .@name$ + "^000000.";
+	mes "I managed to produce a true work of art.";
+	close;
+
+n_zeny:
+	mes "You don't have enough zeny?";
+	mes "Don't worry, you can come back later, I'll always be here~";
+	close;
+
+n_items:
+	mes "You don't have the materials?";
+	mes "Don't worry, you can come back later, I'll always be here~";
+	close;
+
+m_close:
+	mes "[Hat Artisan]";
+	mes "Come back anytime!";
+	close;
+
+//This is the full list of hats
+hatlist:
+	menu "Angeling Hat",angeling,
+	"Bell Ribbon",b_ribbon,
+	"Deviling Hat",deviling,
+	"Deviruchi Headphone",dev_phone,
+	"Dress Hat",dress,
+	"Hat of Fortune",fortune,
+	"Musical Note Headband",music_band,
+	"Musketeer Hat",musketeer,
+	"Note Headphone",note_phone,
+	"Rockabilly Hair",rockabilly,
+	"None",m_close;
+
+
+//Here starts the hat definitions
+
+angeling:
+	.@name$ = "Angeling Hat";
+	.@id = 5132;
+	setarray .@items, 5035,5074;
+	setarray .@quantities, 1,1;
+	goto makehat;
+
+//antler_f:
+//	.@name$ = "Antler Fedora";
+//	.@id = 18662;
+//	setarray .@items, ;
+//	setarray .@quantities, ;
+//	goto makehat;
+
+//asgard:
+//	.@name$ = "Asgard Blessing";
+//	.@id = 18550;
+//	setarray .@items, ;
+//	setarray .@quantities, ;
+//	goto makehat;
+
+b_ribbon:
+	.@name$ = "Bell Ribbon";
+	.@id = 5382;
+	setarray .@items, 5091,2244,1059;
+	setarray .@quantities, 1,1,100;
+	goto makehat;
+
+//bf_beret:
+//	.@name$ = "Black Feather Beret";
+//	.@id = 18561;
+//	setarray .@items, ;
+//	setarray .@quantities, ;
+//	goto makehat;
+
+//b_knit:
+//	.@name$ = "Black Knitted Hat";
+//	.@id = 18709;
+//	setarray .@items, ;
+//	setarray .@quantities, ;
+//	goto makehat;
+
+//b_doge:
+//	.@name$ = "Black Shiba Inu Hat";
+//	.@id = 18756;
+//	setarray .@items, ;
+//	setarray .@quantities, ;
+//	goto makehat;
+
+//b_pajamas:
+//	.@name$ = "Blue Pajamas Hat";
+//	.@id = 5506;
+//	setarray .@items, ;
+//	setarray .@quantities, ;
+//	goto makehat;
+
+//bunny_top:
+//	.@name$ = "Bunny Top Hat";
+//	.@id = 5378;
+//	setarray .@items, ;
+//	setarray .@quantities, ;
+//	goto makehat;
+
+//carnival:
+//	.@name$ = "Carnival Hat";
+//	.@id = 5818;
+//	setarray .@items, ;
+//	setarray .@quantities, ;
+//	goto makehat;
+
+//cat_beret:
+//	.@name$ = "Cat Ear Beret";
+//	.@id = 18600;
+//	setarray .@items, ;
+//	setarray .@quantities, ;
+//	goto makehat;
+
+//catfoot_pin:
+//	.@name$ = "Catfoot Hairpin";
+//	.@id = 5446;
+//	setarray .@items, ;
+//	setarray .@quantities, ;
+//	goto makehat;
+
+//dark_snake:
+//	.@name$ = "Dark Snake Lord Hat";
+//	.@id = ;
+//	setarray .@items, ;
+//	setarray .@quantities, ;
+//	goto makehat;
+
+//desert_p:
+//	.@name$ = "Desert Prince";
+//	.@id = 5591;
+//	setarray .@items, ;
+//	setarray .@quantities, ;
+//	goto makehat;
+
+deviling:
+	.@name$ = "Deviling Hat";
+	.@id = 5254;
+	setarray .@items, 5035,5068;
+	setarray .@quantities, 1,1;
+	goto makehat;
+
+dev_phone:
+	.@name$ = "Deviruchi Headphone";
+	.@id = 18653;
+	setarray .@items, 5038,5001,4354,983;
+	setarray .@quantities, 1,1,1,5;
+	goto makehat;
+
+dress:
+	.@name$ = "Dress Hat";
+	.@id = 5211;
+	setarray .@items, 5045,7047,523,975,982;
+	setarray .@quantities, 1,50,10,3,3;
+	goto makehat;
+
+fortune:
+	.@name$ = "Hat of Fortune";
+	.@id = 5465;
+	setarray .@items, 2247,1059,916,975,978,979,981;
+	setarray .@quantities, 1,50,200,1,1,1,5;
+	goto makehat;
+
+music_band:
+	.@name$ = "Musical Note Headband";
+	.@id = 5678;
+	setarray .@items, 4021,983,999;
+	setarray .@quantities, 1,5,50;
+	goto makehat;
+
+musketeer:
+	.@name$ = "Musketeer Hat";
+	.@id = 5469;
+	setarray .@items, 5075,1059,1022,975;
+	setarray .@quantities, 1,30,250,5;
+	goto makehat;
+
+//new_cowboy:
+//	.@name$ = "New Cowboy Hat";
+//	.@id = 5816;
+//	setarray .@items, ;
+//	setarray .@quantities, ;
+//	goto makehat;
+
+note_phone:
+	.@name$ = "Note Headphone";
+	.@id = 5151;
+	setarray .@items, 5001,5678,7319,7497;
+	setarray .@quantities, 1,1,100,200;
+	goto makehat;
+
+//cactus:
+//	.@name$ = "Potted Muka Hat";
+//	.@id = 5737;
+//	setarray .@items, ;
+//	setarray .@quantities, ;
+//	goto makehat;
+
+rockabilly:
+	.@name$ = "Rockabilly Hair";
+	.@id = 18618;
+	setarray .@items, 2227,7152,938,7139;
+	setarray .@quantities, 1,300,20,10;
+	goto makehat;
+
+//template:
+//	.@name$ = "";
+//	.@id = ;
+//	setarray .@items, ;
+//	setarray .@quantities, ;
+//	goto makehat;
+
+}

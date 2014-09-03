@@ -2,8 +2,8 @@
 // See the LICENSE file
 // Portions Copyright (c) Athena Dev Teams
 
-#ifndef _MAP_MAP_H_
-#define _MAP_MAP_H_
+#ifndef MAP_MAP_H
+#define MAP_MAP_H
 
 #include <stdarg.h>
 
@@ -342,7 +342,7 @@ struct flooritem_data {
 	struct item item_data;
 };
 
-enum _sp {
+enum status_point_types {
 	SP_SPEED,SP_BASEEXP,SP_JOBEXP,SP_KARMA,SP_MANNER,SP_HP,SP_MAXHP,SP_SP,	// 0-7
 	SP_MAXSP,SP_STATUSPOINT,SP_0a,SP_BASELEVEL,SP_SKILLPOINT,SP_STR,SP_AGI,SP_VIT,	// 8-15
 	SP_INT,SP_DEX,SP_LUK,SP_CLASS,SP_ZENY,SP_SEX,SP_NEXTBASEEXP,SP_NEXTJOBEXP,	// 16-23
@@ -409,13 +409,14 @@ enum _sp {
 	SP_EMATK, SP_SP_GAIN_RACE_ATTACK, SP_HP_GAIN_RACE_ATTACK, SP_SKILL_USE_SP_RATE, //2046-2049
 	SP_SKILL_COOLDOWN,SP_SKILL_FIXEDCAST, SP_SKILL_VARIABLECAST, SP_FIXCASTRATE, SP_VARCASTRATE, //2050-2054
 	SP_SKILL_USE_SP,SP_MAGIC_ATK_ELE, SP_ADD_FIXEDCAST, SP_ADD_VARIABLECAST,  //2055-2058
+	SP_SET_DEF_RACE,SP_SET_MDEF_RACE, //2059-2060
 	
 	
 	/* must be the last, plugins add bonuses from this value onwards */
 	SP_LAST_KNOWN,
 };
 
-enum _look {
+enum look {
 	LOOK_BASE,
 	LOOK_HAIR,
 	LOOK_WEAPON,
@@ -486,7 +487,7 @@ struct mapcell {
 		icewall : 1;
 
 #ifdef CELL_NOSTACK
-	unsigned char cell_bl; //Holds amount of bls in this cell.
+	int cell_bl; //Holds amount of bls in this cell.
 #endif
 };
 
@@ -1059,8 +1060,7 @@ struct map_interface {
 	void (*helpscreen) (bool do_exit);
 	void (*versionscreen) (bool do_exit);
 	bool (*arg_next_value) (const char *option, int i, int argc, bool must);
-	void (*addblcell) (struct block_list *bl);
-	void (*delblcell) (struct block_list *bl);
+	void (*update_cell_bl) (struct block_list *bl, bool increase);
 	int (*get_new_bonus_id) (void);
 	void (*add_questinfo) (int m, struct questinfo *qi);
 	bool (*remove_questinfo) (int m, struct npc_data *nd);
@@ -1071,4 +1071,4 @@ struct map_interface *map;
 
 void map_defaults(void);
 
-#endif /* _MAP_MAP_H_ */
+#endif /* MAP_MAP_H */

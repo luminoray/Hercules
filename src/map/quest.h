@@ -2,14 +2,14 @@
 // See the LICENSE file
 // Portions Copyright (c) Athena Dev Teams
 
-#ifndef _MAP_QUEST_H_
-#define _MAP_QUEST_H_
+#ifndef MAP_QUEST_H
+#define MAP_QUEST_H
 
 #include "map.h" // TBL_PC
 #include "../common/cbasetypes.h"
 #include "../common/mmo.h" // MAX_QUEST_OBJECTIVES
 
-#define MAX_QUEST_DB (60355+1) // Highest quest ID + 1
+#define MAX_QUEST_DB (66000+1) // Highest quest ID + 1
 
 struct quest_db {
 	int id;
@@ -52,4 +52,4 @@ struct quest_interface *quest;
 
 void quest_defaults(void);
 
-#endif /* _MAP_QUEST_H_ */
+#endif /* MAP_QUEST_H */

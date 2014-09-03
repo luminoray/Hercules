@@ -2,8 +2,8 @@
 // See the LICENSE file
 // Portions Copyright (c) Athena Dev Teams
 
-#ifndef _MAP_ITEMDB_H_
-#define _MAP_ITEMDB_H_
+#ifndef MAP_ITEMDB_H
+#define MAP_ITEMDB_H
 
 #include "map.h"
 #include "../common/cbasetypes.h"
@@ -58,6 +58,10 @@ enum item_itemid {
 	ITEMID_ORIDECON_STONE        = 756,
 	ITEMID_ALCHOL                = 970,
 	ITEMID_ORIDECON              = 984,
+	ITEMID_ANVIL                 = 986,
+	ITEMID_ORIDECON_ANVIL        = 987,
+	ITEMID_GOLDEN_ANVIL          = 988,
+	ITEMID_EMPERIUM_ANVIL        = 989,
 	ITEMID_BOODY_RED             = 990,
 	ITEMID_CRYSTAL_BLUE          = 991,
 	ITEMID_WIND_OF_VERDURE       = 992,
@@ -609,4 +613,4 @@ struct itemdb_interface *itemdb;
 
 void itemdb_defaults(void);
 
-#endif /* _MAP_ITEMDB_H_ */
+#endif /* MAP_ITEMDB_H */

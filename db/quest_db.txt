@@ -2819,3 +2819,90 @@
 60353,0,0,0,0,0,0,0,"Bathroom Ghost"
 60354,0,0,0,0,0,0,0,"Bathroom Ghost"
 60355,0,0,0,0,0,0,0,"Bathroom Ghost"
+
+//Custom Quests
+
+//Custom Eden Quests
+//100-110
+//Glast Heim
+65001,0,1267,30,0,0,0,0,"Carat Hunting"
+65002,0,1194,22,0,0,0,0,"Arclouse Hunting"
+65003,0,1206,30,0,0,0,0,"Anolian Hunting"
+65004,0,1207,30,0,0,0,0,"Sting Hunting"
+65005,0,1310,30,0,0,0,0,"Majoruros Hunting"
+//Ash Vacuum
+65006,0,1995,30,0,0,0,0,"Pinguicula Hunting"
+65007,0,1994,30,0,0,0,0,"Luciola Vespa Hunting"
+//Ice Dungeon
+65008,0,1106,30,0,0,0,0,"Desert Wolf Hunting"
+65009,0,1777,30,0,0,0,0,"Ice Titan Hunting"
+65010,0,1775,30,0,0,0,0,"Snowier Hunting"
+//Magma Dungeon
+65011,0,1379,30,0,0,0,0,"Nightmare Terror Hunting"
+65012,0,1384,30,0,0,0,0,"Deleter (Sky) Hunting"
+//Other Areas
+65013,0,1505,30,0,0,0,0,"Loli Ruri Hunting"
+65014,0,1148,30,0,0,0,0,"Medusa Hunting"
+65015,0,1098,20,0,0,0,0,"Anubis Hunting"
+
+//111-120
+//Glast Heim
+65016,0,1163,30,0,0,0,0,"Raydric Hunting"
+65017,0,1132,30,0,0,0,0,"Khalitzburg Hunting"
+65018,0,1208,30,0,0,0,0,"Wanderer Hunting"
+//Thanatos Tower
+65019,0,1699,30,0,0,0,0,"Ancient Mimic Hunting"
+65020,0,1698,30,0,0,0,0,"Death Word Hunting"
+65021,0,1295,20,0,0,0,0,"Owl Baron Hunting"
+//Ash Vacuum
+65022,0,2015,30,0,0,0,0,"Dark Pinguicula Hunting"
+65023,0,1988,30,0,0,0,0,"Nepenthes Hunting"
+65024,0,1993,30,0,0,0,0,"Naga Hunting"
+65025,0,1999,20,0,0,0,0,"Centipede Larva Hunting"
+65026,0,1992,30,0,0,0,0,"Cornus Hunting"
+//Pyramid
+65027,0,1297,30,0,0,0,0,"Ancient Mummy Hunting"
+//Geffenia
+65028,0,1374,10,0,0,0,0,"Incubus Hunting"
+65029,0,1370,10,0,0,0,0,"Succubus Hunting"
+65030,0,1390,10,0,0,0,0,"Violy Hunting"
+//Juperos
+65031,0,1677,30,0,0,0,0,"Venatu (Green) Hunting"
+65032,0,1678,30,0,0,0,0,"Venatu (Orange) Hunting"
+65033,0,1679,30,0,0,0,0,"Venatu (Blue) Hunting"
+
+//Custom Eden Cooldowns
+65101,3600,0,0,0,0,0,0,"100-110 Mission Board Cooldown"
+65102,3600,0,0,0,0,0,0,"100-110 Mission Board Cooldown"
+65103,3600,0,0,0,0,0,0,"100-110 Mission Board Cooldown"
+65104,3600,0,0,0,0,0,0,"100-110 Mission Board Cooldown"
+65105,3600,0,0,0,0,0,0,"100-110 Mission Board Cooldown"
+65106,3600,0,0,0,0,0,0,"100-110 Mission Board Cooldown"
+65107,3600,0,0,0,0,0,0,"100-110 Mission Board Cooldown"
+65108,3600,0,0,0,0,0,0,"100-110 Mission Board Cooldown"
+65109,3600,0,0,0,0,0,0,"100-110 Mission Board Cooldown"
+65110,3600,0,0,0,0,0,0,"100-110 Mission Board Cooldown"
+65111,3600,0,0,0,0,0,0,"100-110 Mission Board Cooldown"
+65112,3600,0,0,0,0,0,0,"100-110 Mission Board Cooldown"
+65113,3600,0,0,0,0,0,0,"100-110 Mission Board Cooldown"
+65114,3600,0,0,0,0,0,0,"100-110 Mission Board Cooldown"
+65115,3600,0,0,0,0,0,0,"100-110 Mission Board Cooldown"
+
+65116,3600,0,0,0,0,0,0,"111-120 Mission Board Cooldown"
+65117,3600,0,0,0,0,0,0,"111-120 Mission Board Cooldown"
+65118,3600,0,0,0,0,0,0,"111-120 Mission Board Cooldown"
+65119,3600,0,0,0,0,0,0,"111-120 Mission Board Cooldown"
+65120,3600,0,0,0,0,0,0,"111-120 Mission Board Cooldown"
+65121,3600,0,0,0,0,0,0,"111-120 Mission Board Cooldown"
+65122,3600,0,0,0,0,0,0,"111-120 Mission Board Cooldown"
+65123,3600,0,0,0,0,0,0,"111-120 Mission Board Cooldown"
+65124,3600,0,0,0,0,0,0,"111-120 Mission Board Cooldown"
+65125,3600,0,0,0,0,0,0,"111-120 Mission Board Cooldown"
+65126,3600,0,0,0,0,0,0,"111-120 Mission Board Cooldown"
+65127,3600,0,0,0,0,0,0,"111-120 Mission Board Cooldown"
+65128,3600,0,0,0,0,0,0,"111-120 Mission Board Cooldown"
+65129,3600,0,0,0,0,0,0,"111-120 Mission Board Cooldown"
+65130,3600,0,0,0,0,0,0,"111-120 Mission Board Cooldown"
+65131,3600,0,0,0,0,0,0,"111-120 Mission Board Cooldown"
+65132,3600,0,0,0,0,0,0,"111-120 Mission Board Cooldown"
+65133,3600,0,0,0,0,0,0,"111-120 Mission Board Cooldown"

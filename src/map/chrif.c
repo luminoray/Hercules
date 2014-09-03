@@ -300,7 +300,7 @@ bool chrif_save(struct map_session_data *sd, int flag) {
 
 // connects to char-server (plaintext)
 void chrif_connect(int fd) {
-	ShowStatus("Logging in to char server...\n", chrif->fd);
+	ShowStatus("Logging in to char server...\n");
 	WFIFOHEAD(fd,60);
 	WFIFOW(fd,0) = 0x2af8;
 	memcpy(WFIFOP(fd,2), chrif->userid, NAME_LENGTH);
@@ -576,7 +576,7 @@ void chrif_authok(int fd) {
 
 	//Check if both servers agree on the struct's size
 	if( RFIFOW(fd,2) - 25 != sizeof(struct mmo_charstatus) ) {
-		ShowError("chrif_authok: Data size mismatch! %d != %d\n", RFIFOW(fd,2) - 25, sizeof(struct mmo_charstatus));
+		ShowError("chrif_authok: Data size mismatch! %d != %"PRIuS"\n", RFIFOW(fd,2) - 25, sizeof(struct mmo_charstatus));
 		return;
 	}
 
@@ -1178,7 +1178,7 @@ bool chrif_load_scdata(int fd) {
 	
 	for (i = 0; i < count; i++) {
 		data = (struct status_change_data*)RFIFOP(fd,14 + i*sizeof(struct status_change_data));
-		status->change_start(NULL, &sd->bl, (sc_type)data->type, 10000, data->val1, data->val2, data->val3, data->val4, data->tick, 15);
+		status->change_start(NULL, &sd->bl, (sc_type)data->type, 10000, data->val1, data->val2, data->val3, data->val4, data->tick, 7);
 	}
 	
 	pc->scdata_received(sd);

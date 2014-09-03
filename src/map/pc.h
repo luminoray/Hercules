@@ -2,8 +2,8 @@
 // See the LICENSE file
 // Portions Copyright (c) Athena Dev Teams
 
-#ifndef _MAP_PC_H_
-#define _MAP_PC_H_
+#ifndef MAP_PC_H
+#define MAP_PC_H
 
 #include "../config/core.h" // AUTOLOOTITEM_SIZE, RENEWAL, SECURE_NPCTIMEOUT
 
@@ -311,6 +311,10 @@ struct map_session_data {
 		short flag, rate;
 		unsigned char ele;
 	} subele2[MAX_PC_BONUS];
+	struct {
+		short value;
+		int rate, tick;
+	} def_set_race[RC_MAX], mdef_set_race[RC_MAX];
 	// zeroed structures end here
 	// manually zeroed structures start here.
 	struct s_autobonus autobonus[MAX_PC_BONUS], autobonus2[MAX_PC_BONUS], autobonus3[MAX_PC_BONUS]; //Auto script on attack, when attacked, on skill usage
@@ -344,7 +348,7 @@ struct map_session_data {
 		short add_heal_rate, add_heal2_rate;
 		short sp_gain_value, hp_gain_value, magic_sp_gain_value, magic_hp_gain_value;
 		short sp_vanish_rate;
-		short sp_vanish_per;
+		short sp_vanish_per, sp_vanish_trigger;
 		unsigned short unbreakable;	// chance to prevent ANY equipment breaking [celest]
 		unsigned short unbreakable_equip; //100% break resistance on certain equipment
 		unsigned short unstripable_equip;
@@ -771,6 +775,8 @@ struct pc_interface {
 	//int (*getrefinebonus) (int lv,int type); FIXME: This function does not exist, nor it is ever called
 	bool (*can_give_items) (struct map_session_data *sd);
 	bool (*can_give_bound_items) (struct map_session_data *sd);
+	bool (*can_talk) (struct map_session_data *sd);
+	bool (*can_attack) ( struct map_session_data *sd, int target_id );
  	
 	bool (*can_use_command) (struct map_session_data *sd, const char *command);
 	int (*set_group) (struct map_session_data *sd, int group_id);
@@ -856,7 +862,7 @@ struct pc_interface {
 	unsigned int (*maxjoblv) (struct map_session_data *sd);
 	int (*checkbaselevelup) (struct map_session_data *sd);
 	int (*checkjoblevelup) (struct map_session_data *sd);
-	int (*gainexp) (struct map_session_data *sd, struct block_list *src, unsigned int base_exp, unsigned int job_exp, bool is_quest);
+	bool (*gainexp) (struct map_session_data *sd, struct block_list *src, unsigned int base_exp, unsigned int job_exp, bool is_quest);
 	unsigned int (*nextbaseexp) (struct map_session_data *sd);
 	unsigned int (*thisbaseexp) (struct map_session_data *sd);
 	unsigned int (*nextjobexp) (struct map_session_data *sd);
@@ -893,7 +899,7 @@ struct pc_interface {
 	int (*setcart) (struct map_session_data* sd, int type);
 	int (*setfalcon) (struct map_session_data* sd, int flag);
 	int (*setriding) (struct map_session_data* sd, int flag);
-	int (*setmadogear) (struct map_session_data* sd, int flag);
+	void (*setmadogear) (struct map_session_data* sd, int flag);
 	int (*changelook) (struct map_session_data *sd,int type,int val);
 	int (*equiplookall) (struct map_session_data *sd);
 	
@@ -1024,4 +1030,4 @@ struct pc_interface *pc;
 
 void pc_defaults(void);
 
-#endif /* _MAP_PC_H_ */
+#endif /* MAP_PC_H */

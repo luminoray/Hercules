@@ -2,10 +2,12 @@
 // See the LICENSE file
 // Portions Copyright (c) Athena Dev Teams
 
-#ifndef _COMMON_SHOWMSG_H_
-#define _COMMON_SHOWMSG_H_
+#ifndef COMMON_SHOWMSG_H
+#define COMMON_SHOWMSG_H
 
 #include <stdarg.h>
+
+#include "../common/cbasetypes.h"
 
 #ifdef HERCULES_CORE
 #	include "../../3rdparty/libconfig/libconfig.h"
@@ -93,28 +95,28 @@ enum msg_type {
 
 extern void ClearScreen(void);
 #ifdef HERCULES_CORE
-	extern void ShowMessage(const char *, ...);
-	extern void ShowStatus(const char *, ...);
-	extern void ShowSQL(const char *, ...);
-	extern void ShowInfo(const char *, ...);
-	extern void ShowNotice(const char *, ...);
-	extern void ShowWarning(const char *, ...);
-	extern void ShowDebug(const char *, ...);
-	extern void ShowError(const char *, ...);
-	extern void ShowFatalError(const char *, ...);
-	extern void ShowConfigWarning(config_setting_t *config, const char *string, ...);
+	extern void ShowMessage(const char *, ...) __attribute__((format(printf, 1, 2)));
+	extern void ShowStatus(const char *, ...) __attribute__((format(printf, 1, 2)));
+	extern void ShowSQL(const char *, ...) __attribute__((format(printf, 1, 2)));
+	extern void ShowInfo(const char *, ...) __attribute__((format(printf, 1, 2)));
+	extern void ShowNotice(const char *, ...) __attribute__((format(printf, 1, 2)));
+	extern void ShowWarning(const char *, ...) __attribute__((format(printf, 1, 2)));
+	extern void ShowDebug(const char *, ...) __attribute__((format(printf, 1, 2)));
+	extern void ShowError(const char *, ...) __attribute__((format(printf, 1, 2)));
+	extern void ShowFatalError(const char *, ...) __attribute__((format(printf, 1, 2)));
+	extern void ShowConfigWarning(config_setting_t *config, const char *string, ...) __attribute__((format(printf, 2, 3)));
 #else
-	HPExport void (*ShowMessage) (const char *, ...);
-	HPExport void (*ShowStatus) (const char *, ...);
-	HPExport void (*ShowSQL) (const char *, ...);
-	HPExport void (*ShowInfo) (const char *, ...);
-	HPExport void (*ShowNotice) (const char *, ...);
-	HPExport void (*ShowWarning) (const char *, ...);
-	HPExport void (*ShowDebug) (const char *, ...);
-	HPExport void (*ShowError) (const char *, ...);
-	HPExport void (*ShowFatalError) (const char *, ...);
+	HPExport void (*ShowMessage) (const char *, ...) __attribute__((format(printf, 1, 2)));
+	HPExport void (*ShowStatus) (const char *, ...) __attribute__((format(printf, 1, 2)));
+	HPExport void (*ShowSQL) (const char *, ...) __attribute__((format(printf, 1, 2)));
+	HPExport void (*ShowInfo) (const char *, ...) __attribute__((format(printf, 1, 2)));
+	HPExport void (*ShowNotice) (const char *, ...) __attribute__((format(printf, 1, 2)));
+	HPExport void (*ShowWarning) (const char *, ...) __attribute__((format(printf, 1, 2)));
+	HPExport void (*ShowDebug) (const char *, ...) __attribute__((format(printf, 1, 2)));
+	HPExport void (*ShowError) (const char *, ...) __attribute__((format(printf, 1, 2)));
+	HPExport void (*ShowFatalError) (const char *, ...) __attribute__((format(printf, 1, 2)));
 #endif
 
-extern int _vShowMessage(enum msg_type flag, const char *string, va_list ap);
+extern int vShowMessage_(enum msg_type flag, const char *string, va_list ap);
 
-#endif /* _COMMON_SHOWMSG_H_ */
+#endif /* COMMON_SHOWMSG_H */
