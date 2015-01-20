@@ -3875,7 +3875,7 @@ struct Damage battle_calc_misc_attack(struct block_list *src,struct block_list *
 		if( sc && sc->data[SC_EDP] )
 			ratio >>= 1;
 		md.damage = (matk + atk) * ratio / 100;
-		md.damage += 50 * sstatus->int_;
+		md.damage += 5 * skill_lv * sstatus->int_;
 		md.damage -= totaldef;
 #endif
 		}
