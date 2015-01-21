@@ -72,8 +72,8 @@ jobchangescript:*/
 		mes "Now go!";
 		close;
 	}
-	if (checkfalcon() || checkcart() || checkriding() || ismounting()) {
-		mes "Please remove your "+((checkfalcon())?"falcon":"")+((checkcart())?"cart":"")+((checkriding())?"Peco":"")+((ismounting())?"mount":"")
+	if (checkfalcon() || checkcart() || checkmount() || hascashmount()) {
+		mes "Please remove your "+((checkfalcon())?"falcon":"")+((checkcart())?"cart":"")+((checkmount() || hascashmount())?"mount":"")
 		    +" before proceeding.";
 		close;
 	}

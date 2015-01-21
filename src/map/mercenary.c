@@ -333,7 +333,7 @@ int merc_data_received(struct s_mercenary *merc, bool flag) {
 		mercenary->set_calls(md, 1);
 	sd->status.mer_id = merc->mercenary_id;
 
-	if( md && md->bl.prev == NULL && sd->bl.prev != NULL ) {
+	if( md->bl.prev == NULL && sd->bl.prev != NULL ) {
 		map->addblock(&md->bl);
 		clif->spawn(&md->bl);
 		clif->mercenary_info(sd);
@@ -362,7 +362,7 @@ int mercenary_killbonus(struct mercenary_data *md)
 	const enum sc_type scs[] = { SC_MER_FLEE, SC_MER_ATK, SC_MER_HP, SC_MER_SP, SC_MER_HIT };
 	int index = rnd() % ARRAYLENGTH(scs);
 
-    sc_start(NULL,&md->bl, scs[index], 100, rnd() % 5, 600000);
+	sc_start(NULL,&md->bl, scs[index], 100, rnd() % 5, 600000);
 	return 0;
 }
 
